@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Table(props) {
   return (
-    <table className="table table-striped caption-top mt-3 mb-3">
+    <table className="container table table-striped caption-top mt-3 mb-3 w-75">
     <caption>List of Added Fields</caption>
   <thead>
     <tr>
@@ -23,7 +23,7 @@ export default function Table(props) {
               <td>{row.fType}</td>
               <td>{row.fDataType}</td>
               <td>{row.fValid}</td>
-              <td>{Array.isArray(row.values) ? row.values.join(' ') : row.values}</td>
+              <td>{Array.isArray(row.values) ? row.values.join(',\n') : row.values}</td>
               <td>{row.isMan}</td>
             </tr>
           ))}

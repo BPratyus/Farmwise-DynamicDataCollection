@@ -1,9 +1,10 @@
 import React, { useState,useRef } from 'react'
 import Table from './Table'
-import DisplayFields from './DisplayFields';
+import { Link } from 'react-router-dom';
+// import DisplayFields from './DisplayFields';
 
 
-export default function Form() {
+export default function Form({ onRowsUpdate }) {
 
     
     const [profile, setprofile] = useState("Select")
@@ -21,40 +22,27 @@ export default function Form() {
     const formRef = useRef(null);
     const [listInput, setListInput] = useState('');
 
-    const [formFields, setFormFields] = useState({
-    // Initial state, you can customize as needed
-    field1: '',
-    field2: '',
-    field3: '',
-    field4: '',
-    field5: '',
-    field6: '',
-  });
 
-  
-
-  
-
-    const handleListInputChange = (event) => {
-    setListInput(event.target.value);
-    
-  };
-    const handleDisplayInputChange = (event) => {
-    setDisplayName(event.target.value);
-    
-  };
-    const handleTextField = (event) => {
-    setTextData(event.target.value);
-    
-  };
-    const handleDateField = (event) => {
-    setDateData(event.target.value);
-    
-  };
-    const handleFieldLen = (event) => {
-    setfieldLen(event.target.value);
-    
-  };
+        const handleListInputChange = (event) => {
+        setListInput(event.target.value);
+        
+    };
+        const handleDisplayInputChange = (event) => {
+        setDisplayName(event.target.value);
+        
+    };
+        const handleTextField = (event) => {
+        setTextData(event.target.value);
+        
+    };
+        const handleDateField = (event) => {
+        setDateData(event.target.value);
+        
+    };
+        const handleFieldLen = (event) => {
+        setfieldLen(event.target.value);
+        
+    };
    
     const createProfile =(event) =>{
         
@@ -91,7 +79,7 @@ export default function Form() {
         return;
     }
         if (field === 'Set Field Type') {
-        alert('Set Field Type not.');
+        alert('Set Field Type');
         return;
     }
         // Split the entered text into an array of values
@@ -115,11 +103,10 @@ export default function Form() {
         setRows((prevRows) => [...prevRows, newRow]);
 
     }
-    const fields = rows.map((row) => ({
-    label: rows.fName,
-    type: rows.fType,
-    options: rows.Values || [], // Default to an empty array if options are not provided
-  }));
+
+    const handleRows =()=>{
+        onRowsUpdate(rows)
+    }
 
   return (
     <div className='container mt-5'>
@@ -157,8 +144,8 @@ export default function Form() {
             {/* Field Display Name */}
             <div className="col-sm">
                 <label htmlFor="displayName" className="form-label">Field Display Name </label>
-                <input type="text " className="form-control" onChange={handleDisplayInputChange} id="displayName" value={displayName} placeholder=""/>
-
+                <input type="text " className="form-control" onChange={handleDisplayInputChange} id="displayName" value={displayName} placeholder="" required />
+                
             </div>
             {/* Field Data Type */}
             <div className="col-sm">
@@ -232,13 +219,17 @@ export default function Form() {
             <div className="col-sm pt-4">
                 <button type='submit' className="btn btn-secondary" onClick={handleSubmit}>Confirm</button>
             </div>
-            <button type="reset" className='d-none'>Reset</button>
         </form>
             <Table rows={rows}/>
+            <div className='container text-center'>
+            
+            <Link type="button" className='btn btn-success mx-3' onClick={handleRows} to="/display">Confirm</Link>
+            <button type="button" className='btn btn-secondary mx-3'>Reset</button>
+            </div>
 
 
         
-        <DisplayFields fields={fields} formData={formFields} />
+        
         
             
     </div>

@@ -1,35 +1,48 @@
 import React from 'react';
 
-const DisplayFields = ({  fields, formData, onFieldChange }) => {
+const DynamicForm = ({ rows }) => {
+    const handleSubmit = (event) => {
+    event.preventDefault();
+    // Here you can perform validation or any other actions
+  };
   return (
-    <div>
-      {fields.map((field) => (
-        <div key={field.label}>
-          <label htmlFor={field.label}>{field.label}:</label>
-          {field.type === 'text' ? (
+    <form className="container row g-3 needs-validation" noValidate>
+      {rows.map((row) => (
+        <div className='container' key={row.fName}>
+        <div className='col-md-4'>
+          <label className='form-label'htmlFor={row.fName}>{row.fName}</label>
+          {row.fType === 'TextBox' ? (
             <input
-              type="text"
-              id={field.label}
-              value={formData[field.label]}
-              onChange={(e) => onFieldChange(field.label, e.target.value)}
+              type={row.fDataType === 'Number' ? 'number' : 'text'}
+              id={row.fName}
+              maxLength={row.fValid}
+              className='form-control'
+              required={row.fValid === 'Yes' ? 'required' : undefined}
             />
-          ) : field.type === 'dropdown' ? (
-            <select
-              id={field.label}
-              value={formData[field.label]}
-              onChange={(e) => onFieldChange(field.label, e.target.value)}
-            >
-              {field.options.map((option) => (
+            
+          ) : row.fType === 'Dropdown' ? (
+            <select className='form-select' id={row.fieldName} >
+              {row.values.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </select>
+          ) : row.fType === 'Date Picker' ? (
+            
+            <input className='form-control' type="date" id={row.fName}  />
           ) : null}
+          </div>
         </div>
       ))}
-    </div>
+      <div className=" container g-3 col-12">
+      {rows.length > 0 && (
+        <button className="btn btn-primary mb-3" type="submit" onClick={handleSubmit}>Submit</button>
+      )}
+      
+      </div>
+    </form>
   );
 };
 
-export default DisplayFields;
+export default DynamicForm;
